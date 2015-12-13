@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Pixi.js Test</title>
+  <script src="build/index.js"></script>
+</head>
+<body>
+  <script>
+    var renderer = new PIXI.autoDetectRenderer(800,600);
+    document.body.appendChild(renderer.view);
+    var animationLoop = new PIXI.AnimationLoop(renderer);
+    //animationLoop.addPreRenderAction((delta, animationLoop)=>console.log(animationLoop.time, animationLoop.realTime));
+    animationLoop.start();
+  </script>
+</body>
+</html>

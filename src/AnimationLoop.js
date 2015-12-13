@@ -10,7 +10,7 @@ export default class AnimationLoop {
     this.deltaMS = 0;
     this.time = 0;
     this._lastTime = 0;
-    this.maxFrameMS = 0.035;
+    this.maxFrame = 0.035;
 
     this.raf = null;
 
@@ -23,7 +23,7 @@ export default class AnimationLoop {
 
     if(this.stage){
       let now = Date.now();
-      this.time += Math.min((now-this._last)/1000,this.maxFrameMS) * this.speed;
+      this.time += Math.min((now-this._last)/1000,this.maxFrame) * this.speed;
       this.delta = this.time - this._lastTime;
       this.deltaMS = this.delta*1000;
       this._lastTime = this.time;

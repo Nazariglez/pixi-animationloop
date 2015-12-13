@@ -3,13 +3,13 @@ pixi-animationloop
 
 AnimationLoop is a plugin for Pixi.js v3 or higher to manage the animation frame, doing the basic time operations, like calculate delta, total time, start/stop loop, and more.
 
-##Installation
+## Installation
 ```
 npm install pixi-animationloop
 ```
 
-##Usage
-###Browserify - Webpack
+## Usage
+### Browserify - Webpack
 If you use Browserify or Webpack you can use pixi-animationloop like this:
 
 ```js
@@ -24,7 +24,7 @@ var animationLoop = new PIXI.AnimationLoop(renderer);
 animationLoop.start();
 ```
 
-###Prebuilt files
+### Prebuilt files
 
 ```js
 var renderer = new PIXI.autoDetectRenderer(800,600);
@@ -34,7 +34,7 @@ var animationLoop = new PIXI.AnimationLoop(renderer);
 animationLoop.start();
 ```
 
-###How to add an action
+### How to add an action
 Actions can be used to add code before or after the render time.
 
 ```js
@@ -56,32 +56,32 @@ animationLoop.addPostRenderAction(myAction);
 animationLoop.removePostRenderAction(myAction);
 ```
 
-##API
-####constructor( renderer [, stage])
+## API
+#### constructor( renderer [, stage])
 The constructor
-####.time
+#### .time
 Total game time in seconds (stop the animation loop stops the time)
-####.realTime
+#### .realTime
 Real time in seconds, since the first start
-####.delta
+#### .delta
 Delta time in seconds
-####.deltaMS
+#### .deltaMS
 Delta time in milliseconds
-####.speed
+#### .speed
 Set the time speed (like 0.5, 1.5, 2, ...)
-####.maxFrame
+#### .maxFrame
 Delta time can't be higher than maxFrame (in seconds)
-####.raf
+#### .raf
 Request animation frame ID.
-####.addPreRenderAction( fn )
+#### .addPreRenderAction( fn )
 Add a function before the render (These functions has as parameters the delta time and the animationLoop instance)
-####.removePreRenderAction( fn )
+#### .removePreRenderAction( fn )
 Remove a function from preRender actions
-####.addPostRenderAction( fn )
+#### .addPostRenderAction( fn )
 Add a function after the render (These functions has as parameters the delta time and the animationLoop instance)
-####.removePreRenderAction( fn )
+#### .removePreRenderAction( fn )
 Remove a function from postRender actions
-####.start()
+#### .start()
 Start or resume the animation loop
-####.stop()
+#### .stop()
 Stops the animation loop

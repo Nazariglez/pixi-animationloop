@@ -3,6 +3,7 @@
 var webpack = require('webpack');
 var path = require('path');
 
+var PLUGIN_NAME = require('./package.json').name;
 var DEV = process.env.NODE_ENV !== "production";
 var ENTRY = ['./src/index.js'];
 var EXTERNALS = {};
@@ -14,9 +15,10 @@ if(DEV){
 }
 
 module.exports = {
+	devtool: 'source-map',
 	entry: ENTRY,
 	output: {
-		filename: 'build/index.js'
+		filename: 'build/' + PLUGIN_NAME + '.js'
 	},
   resolve: {
     extensions: ["", ".js"]

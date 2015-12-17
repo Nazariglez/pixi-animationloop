@@ -59,6 +59,10 @@ animationLoop.removePostRenderAction(myAction);
 ## API
 #### constructor( renderer [, stage])
 The constructor
+#### .renderer
+Pixi.js renderer
+#### .stage
+Pixi.js container used as stage
 #### .time
 Total game time in seconds (stop the animation loop stops the time)
 #### .realTime

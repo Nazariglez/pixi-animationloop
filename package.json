@@ -2,7 +2,7 @@
   "name": "pixi-animationloop",
   "version": "1.0.3",
   "description": "AnimationLoop is a plugin for Pixi.js v3 or higher to manage the animation frame, doing the basic time operations, like calculate delta, total time, start/stop loop, and more.",
-  "main": "./build/index.js",
+  "main": "./build/pixi-animationloop.js",
   "author": "Nazariglez <nazari.nz@gmail.com> (http://www.nazariglez.com)",
   "license": "MIT",
 

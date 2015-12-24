@@ -6,7 +6,7 @@ export default class AnimationLoop extends PIXI.utils.EventEmitter {
     this.renderer = renderer;
     this.stage = stage;
 
-    this._isRunning = false;
+    this.isRunning = false;
 
     this._firstDate = 0;
     this.speed = 1;

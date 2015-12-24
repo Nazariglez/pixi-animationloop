@@ -1,7 +1,7 @@
 pixi-animationloop
 ======================
 
-AnimationLoop is a plugin for Pixi.js v3 or higher to manage the animation frame, doing the basic time operations, like calculate delta, total time, start/stop loop, and more.
+AnimationLoop is a plugin for Pixi.js v3.0.8 or higher to manage the animation frame, doing the basic time operations, like calculate delta, total time, start/stop loop, and more.
 
 ## Installation
 ```
@@ -35,7 +35,7 @@ animationLoop.start();
 ```
 
 ### Events
-AnimationLoop extends from [PIXI.utils.EventEmitter](https://github.com/primus/eventemitter3), and emit four events, start, stop, prerender, and postrender. All these events has as param the animationLoop instance. More info: [Node.js Events](https://nodejs.org/api/events.html#events_emitter_emit_event_arg1_arg2)
+AnimationLoop extends from [PIXI.utils.EventEmitter](https://github.com/primus/eventemitter3), and emit four events: start, stop, prerender, and postrender. All these events has as param the animationLoop instance. More info: [Node.js Events](https://nodejs.org/api/events.html#events_emitter_emit_event_arg1_arg2)
 
 ```js
 animationLoop.on('start', function(aLoop){

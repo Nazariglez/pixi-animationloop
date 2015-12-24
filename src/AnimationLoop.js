@@ -1,7 +1,12 @@
-export default class AnimationLoop {
+import PIXI from 'pixi.js';
+
+export default class AnimationLoop extends PIXI.utils.EventEmitter {
   constructor(renderer, stage = new PIXI.Container()){
+    super();
     this.renderer = renderer;
     this.stage = stage;
+
+    this._isRunning = false;
 
     this._firstDate = 0;
     this.speed = 1;
@@ -13,9 +18,6 @@ export default class AnimationLoop {
     this.maxFrame = 0.035;
 
     this.raf = null;
-
-    this._preRenderActions = [];
-    this._postRenderActions = [];
   }
 
   _animate(){
@@ -29,47 +31,28 @@ export default class AnimationLoop {
       this._lastTime = this.time;
       this._last = now;
 
-      this._preRender();
+      this.emit('prerender', this);
       this.renderer.render(this.stage);
-      this._postRender();
-    }
-  }
-
-  _preRender(){
-    let len = this._preRenderActions.length;
-    for(let i = 0; i < len; i++){
-      this._preRenderActions[i](this.delta, this);
-    }
-  }
-
-  _postRender(){
-    let len = this._postRenderActions.length;
-    for(let i = 0; i < len; i++){
-      this._postRenderActions[i](this.delta, this);
+      this.emit('postrender', this);
     }
   }
 
   start(){
-    let now = Date.now();
-    this._last = now;
-    if(this._firstDate === 0)this._firstDate = now;
-    this._animate();
-  }
-
-  stop(){
-    if(this.raf)window.cancelAnimationFrame(this.raf);
-  }
-
-  addPreRenderAction(fn){
-    if(this._preRenderActions.indexOf(fn) === -1){
-      this._preRenderActions.push(fn);
+    if(!this.isRunning){
+      this.isRunning = true;
+      let now = Date.now();
+      this._last = now;
+      if(this._firstDate === 0)this._firstDate = now;
+      this.emit('start', this);
+      this._animate();
     }
   }
 
-  removePreRenderAction(fn){
-    let index = this._postRenderActions.indexOf(fn);
-    if(index !== -1){
-      this._postRenderActions.splice(index, 1);
+  stop(){
+    if(this.isRunning){
+      this.isRunning = false;
+      window.cancelAnimationFrame(this.raf);
+      this.emit('stop', this);
     }
   }
 

@@ -11,9 +11,23 @@
     var renderer = new PIXI.autoDetectRenderer(800,600);
     document.body.appendChild(renderer.view);
     var animationLoop = new PIXI.AnimationLoop(renderer);
-    animationLoop.addPreRenderAction(function(delta, animationLoop){
-      console.log(delta, animationLoop.time);
+
+    animationLoop.on('start', function(aLoop){
+      console.log('onStart');
     });
+
+    animationLoop.on('stop', function(aLoop){
+      console.log('onStop');
+    });
+
+    animationLoop.on('prerender', function(aLoop){
+      console.log('preRender', aLoop.delta);
+    });
+
+    animationLoop.on('postrender', function(aLoop){
+      console.log('postRender', aLoop.delta);
+    });
+
     animationLoop.start();
   </script>
 </body>

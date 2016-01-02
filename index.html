@@ -21,12 +21,14 @@
     });
 
     animationLoop.on('prerender', function(aLoop){
-      console.log('preRender', aLoop.delta);
+      //console.log('preRender', aLoop.delta);
     });
 
     animationLoop.on('postrender', function(aLoop){
-      console.log('postRender', aLoop.delta);
+      //console.log('postRender', aLoop.delta);
     });
+
+    animationLoop.stopOnVisibilityChange = true;
 
     animationLoop.start();
   </script>

@@ -7,6 +7,7 @@ export default class AnimationLoop extends PIXI.utils.EventEmitter {
     this.stage = stage;
 
     this.isRunning = false;
+    this._stopOnVisibilityChange = false;
 
     this._firstDate = 0;
     this.speed = 1;
@@ -31,9 +32,9 @@ export default class AnimationLoop extends PIXI.utils.EventEmitter {
       this._lastTime = this.time;
       this._last = now;
 
-      this.emit('prerender', this);
+      this.emit('prerender');
       this.renderer.render(this.stage);
-      this.emit('postrender', this);
+      this.emit('postrender');
     }
   }
 
@@ -43,7 +44,7 @@ export default class AnimationLoop extends PIXI.utils.EventEmitter {
       let now = Date.now();
       this._last = now;
       if(this._firstDate === 0)this._firstDate = now;
-      this.emit('start', this);
+      this.emit('start');
       this._animate();
     }
   }
@@ -52,11 +53,49 @@ export default class AnimationLoop extends PIXI.utils.EventEmitter {
     if(this.isRunning){
       this.isRunning = false;
       window.cancelAnimationFrame(this.raf);
-      this.emit('stop', this);
+      this.emit('stop');
     }
+  }
+
+  _onVisibilityChange(){
+    const isHide = !!(document.hidden || document.webkitHidden || document.mozHidden || document.msHidden);
+    if(isHide) {
+      this.stop()
+    }else {
+      this.start();
+    }
+
+    this.emit('visibilitychange', isHide);
   }
 
   get realTime(){
     return this._firstDate > 0 ? (Date.now() - this._firstDate)/1000 : 0;
+  }
+
+  get stopOnVisibilityChange(){
+    return this._stopOnVisibilityChange;
+  }
+
+  set stopOnVisibilityChange(value){
+    if(value === this._stopOnVisibilityChange)return;
+    this._stopOnVisibilityChange = value;
+    const evt = getVisibilityChangeEvent();
+    if(value){
+      document.addEventListener(evt, this._onVisibilityChange.bind(this));
+    }else{
+      document.removeEventListener(evt, this._onVisibilityChange);
+    }
+  }
+}
+
+function getVisibilityChangeEvent(){
+  if(typeof document.hidden !== 'undefined'){
+      return 'visibilitychange';
+  }else if(typeof document.webkitHidden !== 'undefined'){
+      return 'webkitvisibilitychange';
+  }else if(typeof document.mozHidden !== 'undefined'){
+      return 'mozvisibilitychange';
+  }else if(typeof document.msHidden !== 'undefined'){
+      return 'msvisibilitychange';
   }
 }

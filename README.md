@@ -35,25 +35,31 @@ animationLoop.start();
 ```
 
 ### Events
-AnimationLoop extends from [PIXI.utils.EventEmitter](https://github.com/primus/eventemitter3), and emit four events: start, stop, prerender, and postrender. All these events has as param the animationLoop instance. More info: [Node.js Events](https://nodejs.org/api/events.html#events_emitter_emit_event_arg1_arg2)
+AnimationLoop extends from [PIXI.utils.EventEmitter](https://github.com/primus/eventemitter3), and emit four events: start, stop, prerender, postrender and visibilitychange. More info: [Node.js Events](https://nodejs.org/api/events.html#events_emitter_emit_event_arg1_arg2)
 
 ```js
-animationLoop.on('start', function(aLoop){
+animationLoop.on('start', function(){
   console.log('onStart');
 });
 
-animationLoop.on('stop', function(aLoop){
+animationLoop.on('stop', function(){
   console.log('onStop');
 });
 
 //Before the renderer.render(stage) function
-animationLoop.on('prerender', function(aLoop){
-  console.log('preRender', aLoop.delta);
+animationLoop.on('prerender', function(){
+  console.log('preRender', this.delta);
 });
 
 //After the renderer.render(stage) function
-animationLoop.on('postrender', function(aLoop){
-  console.log('postRender', aLoop.delta);
+animationLoop.on('postrender', function(){
+  console.log('postRender', this.delta);
+});
+
+//when the visibility change, for example, when the user move on to other browser tab.
+animationLoop.on('visibilitychange', function(isHide){
+  //the param isHide is the state of the tab
+  console.log('visibilityChange', isHide);
 });
 ```
 
@@ -80,6 +86,8 @@ Delta time can't be higher than maxFrame (in seconds)
 Request animation frame ID
 #### .isRunning
 Used internally to know the state of the loop
+#### .stopOnVisibilityChange
+Stop the animation loop when the user move on to the other tab, when the user comes back the game will be resumed. (false by defult)
 #### .start()
 Start or resume the animation loop, emit the 'start' event
 #### .stop()

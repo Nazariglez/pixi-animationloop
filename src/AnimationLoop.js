@@ -21,23 +21,6 @@ export default class AnimationLoop extends PIXI.utils.EventEmitter {
     this.raf = null;
   }
 
-  _animate(){
-    this.raf = window.requestAnimationFrame(this._animate.bind(this));
-
-    if(this.stage){
-      let now = Date.now();
-      this.time += Math.min((now-this._last)/1000,this.maxFrame) * this.speed;
-      this.delta = this.time - this._lastTime;
-      this.deltaMS = this.delta*1000;
-      this._lastTime = this.time;
-      this._last = now;
-
-      this.emit('prerender');
-      this.renderer.render(this.stage);
-      this.emit('postrender');
-    }
-  }
-
   start(){
     if(!this.isRunning){
       this.isRunning = true;
@@ -57,7 +40,24 @@ export default class AnimationLoop extends PIXI.utils.EventEmitter {
     }
   }
 
-  _onVisibilityChange(){
+  _animate = ()=>{
+    this.raf = window.requestAnimationFrame(this._animate);
+
+    if(this.stage){
+      let now = Date.now();
+      this.time += Math.min((now-this._last)/1000,this.maxFrame) * this.speed;
+      this.delta = this.time - this._lastTime;
+      this.deltaMS = this.delta*1000;
+      this._lastTime = this.time;
+      this._last = now;
+
+      this.emit('prerender');
+      this.renderer.render(this.stage);
+      this.emit('postrender');
+    }
+  };
+
+  _onVisibilityChange = ()=>{
     const isHide = !!(document.hidden || document.webkitHidden || document.mozHidden || document.msHidden);
     if(isHide) {
       this.stop()
@@ -66,7 +66,7 @@ export default class AnimationLoop extends PIXI.utils.EventEmitter {
     }
 
     this.emit('visibilitychange', isHide);
-  }
+  };
 
   get realTime(){
     return this._firstDate > 0 ? (Date.now() - this._firstDate)/1000 : 0;
@@ -81,7 +81,7 @@ export default class AnimationLoop extends PIXI.utils.EventEmitter {
     this._stopOnVisibilityChange = value;
     const evt = getVisibilityChangeEvent();
     if(value){
-      document.addEventListener(evt, this._onVisibilityChange.bind(this));
+      document.addEventListener(evt, this._onVisibilityChange);
     }else{
       document.removeEventListener(evt, this._onVisibilityChange);
     }
